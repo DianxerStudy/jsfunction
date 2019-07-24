@@ -27,5 +27,4 @@ var endStory = compose(console.log,either(id)(finishTransaction));
 var getValue = e => e.__value;
 var getStory = compose(map(finishTransaction),withdraw(20));
 var printStory = compose(console.log,map(finishTransaction),withdraw(20));
-
 module.exports = {getStory};

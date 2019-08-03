@@ -1,0 +1,27 @@
+{
+  "name": "fprog",
+  "version": "1.0.0",
+  "description": "this is a exercise for practicing functional programing with javascript. ",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+ssh://git@github.com/DianxerStudy/jsfunction.git"
+  },
+  "keywords": [
+    "functional",
+    "javascript"
+  ],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/DianxerStudy/jsfunction/issues"
+  },
+  "homepage": "https://github.com/DianxerStudy/jsfunction#readme",
+  "dependencies": {
+    "data.task": "^3.1.2",
+    "pg": "^7.11.0"
+  }
+}

@@ -1,4 +1,4 @@
-const {id,compose,Maybe,either,Left,Right} = require('./support');
+var support = require('./support');
 const fs = require('fs');
 
 var map = f => e => e.map(f);
@@ -16,15 +16,16 @@ Container.prototype.map = function(f){
 var split = pattern => str => str.split(pattern);
 
 //a -> account -> account
-var withdraw = amount => ({balance}) =>  balance < amount ? Left.of('You broken!') : Right.of({balance: balance - amount});
+var withdraw = amount => ({balance}) =>  balance < amount ? support.Left.of('You broken!') : support.Right.of({balance: balance - amount});
 var updateLedgr = account => account;
 var remainBalance = ({balance}) => `Your balance is $${balance}`;
 
 //finishTransaction::account account -> account
-var finishTransaction = compose(remainBalance,updateLedgr);
-var endStory = compose(console.log,either(id)(finishTransaction));
+var finishTransaction = support.compose(remainBalance,updateLedgr);
+var endStory = support.compose(console.log,support.either(support.id)(finishTransaction));
 
 var getValue = e => e.__value;
-var getStory = compose(map(finishTransaction),withdraw(20));
-var printStory = compose(console.log,map(finishTransaction),withdraw(20));
+var getStory = support.compose(map(finishTransaction),withdraw(20));
+var printStory = support.compose(console.log,map(finishTransaction),withdraw(20));
+
 module.exports = {getStory};

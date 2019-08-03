@@ -39,5 +39,6 @@ var join = container => container.__value;
 
 var getAddress = support.compose(join,support.map(safeProp('street')),safeProp('address'));
 var getNumber = support.compose(join,support.map(safeProp('number')),getAddress)
+var chain = f => obj => obj.map(f).join()
 console.log(getNumber(user));
 

@@ -1,58 +1,86 @@
 
-var support = {
-    map : f => any_functor =>　any_functor.map(f),
-    compose: (...funcs) => arg => funcs.reduceRight((v,f) => f(v),arg),
-    Maybe : function(x){
+module.exports =  (() => {
+    let map = f => any_functor =>　any_functor.map(f);
+    let compose = (...funcs) => arg => funcs.reduceRight((v,f) => f(v),arg);
+    let Maybe =  function(x){
         this.__value = x;
-    },
-    Left : function(x){
+    }
+
+    Maybe.of = x => x ? new Maybe(x) : new Maybe(null);
+    Maybe.prototype.isNothing = function(){return this.__value == null || this.__value == undefined;}
+    Maybe.prototype.map = function(f){return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value));}
+    Maybe.prototype.join = function(){return this.__value;}
+
+    let Left = function(x){
         this.__value = x;
-    },
-    Right :  function(x){
+    }
+
+    Left.of = x => new Left(x);
+    Left.prototype.map = function(f){
+        return Left.of(this.__value);
+    }
+    Left.prototype.join = function(){return this.__value;}
+
+    let Right = function(x){
         this.__value = x;
-    },
-    either : f=>g=>e => {
+    }
+
+    Right.of = x => new Right(x);
+    Right.prototype.map = function(f){
+        return Right.of(f(this.__value));
+    }
+    Right.prototype.join = function(){return this.__value;}
+
+    Right.prototype.chain = function(f) {
+        return this.map(f).join();
+    }
+
+    let either = f=>g=>e => {
         console.log('e=' , e);
         switch(e.constructor){
             case Left: return f(e.__value);
             case Right: return g(e.__value);
         }
-    },
-    id : x=>x,
-    IO : function(f){
+    }
+    let id = x=>x
+
+    let IO = function(f){
         this.__value = f;
-    },
-    log: x => {
+    }
+    
+    let log = x => {
         console.log('current value is ',x);
         return x;
     }
-}
 
-support.Maybe.of = x => x ? new support.Maybe(x) : new support.Maybe(null);
+    IO.of = function(x){
+        return new IO(()=>x);
+    }
+    
+    IO.prototype.map = function(f) {
+        return new IO(compose(f,this.__value));
+    }
+    IO.prototype.join = function(f){
+        return this.__value();
+    }
+    
+    IO.prototype.chain = function(f){
+        return this.map(f).join();
+    }
 
-support.Maybe.prototype.isNothing = function(){return this.__value == null || this.__value == undefined;}
-support.Maybe.prototype.map = function(f){return this.isNothing() ? support.Maybe.of(null) : support.Maybe.of(f(this.__value));}
+    let chain = f => m => m.map(f).join()
 
-support.Left.of = x => new support.Left(x);
-support.Left.prototype.map = function(f){
-    return support.Left.of(this.__value);
-}
+    return {
+        id,
+        map,
+        compose,
+        chain,
+        either,
+        log,
+        Left,
+        Right,
+        Maybe,
+        IO
+    }
+})()
 
-support.Right.of = x => new support.Right(x);
-support.Right.prototype.map = function(f){
-    return support.Right.of(f(this.__value));
-}
-
-support.Right.prototype.chain = function(f) {
-    this.map(f(this.__value)).__value;
-}
-
-support.IO.of = function(x){
-    return new support.IO(()=>x);
-}
-
-support.IO.prototype.map = function(f) {
-    return new support.IO(support.compose(f,this.__value));
-}
-
-module.exports = support;

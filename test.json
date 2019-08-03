@@ -1,6 +1,10 @@
 {
-    "uname": "hello",
-    "pass": "world",
-    "host": "mycomputer",
-    "db": "good"
+    "id" : 1,
+    "name": "Abert",
+    "address": {
+        "street":{
+            "number": 22,
+            "name": "Walnut St"
+        }
+    }
 }

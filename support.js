@@ -35,8 +35,7 @@ module.exports =  (() => {
         return this.map(f).join();
     }
 
-    let either = f=>g=>e => {
-        console.log('e=' , e);
+    let either = (f,g)=>e => {
         switch(e.constructor){
             case Left: return f(e.__value);
             case Right: return g(e.__value);
@@ -68,6 +67,8 @@ module.exports =  (() => {
         return this.map(f).join();
     }
 
+    let unsafecall = io => io.__value()
+
     let chain = f => m => m.map(f).join()
 
     return {
@@ -80,7 +81,8 @@ module.exports =  (() => {
         Left,
         Right,
         Maybe,
-        IO
+        IO,
+        unsafecall
     }
 })()
 

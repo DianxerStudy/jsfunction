@@ -54,8 +54,44 @@ var userAddressNumber = getFile('./test.json')
                             .chain(syncSupport.chain(safePropIO('street')))
                             .chain(syncSupport.chain(safePropIO('number1')))
                             .map(syncSupport.log)
-                            .__value()
-                            .__value
-console.log(userAddressNumber)
 
-                     
+var getFile1 = filename => new syncSupport.IO(()=>{console.log('get file called');return fs.readFileSync(filename)});
+var log1 = x => new syncSupport.IO(()=>{console.log(x);return x})
+
+
+var compose = (...funcs) => (...args) => {
+    let $arg = args
+    for(let i= funcs.length; i>0; i--){
+        $arg = [funcs[i-1].call(null,...$arg)];
+    }
+    return $arg[0]
+}
+
+var f0 = () => 5
+var f1 = (l,r) => l+r;
+var f2 = s => s*s;
+var f3 = content => console.log('content',content)
+
+var printSqure = compose(f3,f2,f1)
+var printFiveSqure = compose(f3,f2,f0)
+//printSqure(5,6)
+//printFiveSqure();
+
+
+var Car = function(){
+    this.getInformation = function(){
+        console.log(`Your have a car named ${this.name} and model is ${this.model}`)
+        console.log('current this point is ',this)
+    }
+    return this;
+}
+
+var audi = Car.bind({name:'jack',model:'audi'})
+//audi().getInformation();
+
+var add = function(a,b){
+    console.log(this.quiz,a+b)
+}
+
+add.call({quiz:'elementary school'},4,5);
+add.apply({quiz:'elementary school'},[4,5]);

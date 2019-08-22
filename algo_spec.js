@@ -1,41 +1,48 @@
 var algo = require('./algo')
 var support = require('./support')
 
+var min = 100;
+var max = 500;
+var count = 20000
+
 console.time('merge-sort-2000-loops')
-support.Maybe.of(20)
+Array.from({length:count},i=>{
+    let len = algo.getRandomIntInclusive(min,max)
+    support.Maybe.of(len)
        .map(algo.getRandomArray)
        .map(algo.runMergeSort)
        .map(algo.testSort)
        .map(support.log)
+})
 console.timeEnd('merge-sort-2000-loops')
 
-console.time('immutual-2000-loops');
-Array.from({length:2000},i=>{
-    let len = algo.getRandomIntInclusive(5,30)
+console.time('insert-sort-2000-loops');
+Array.from({length:count},i=>{
+    let len = algo.getRandomIntInclusive(min,max)
     support.Maybe.of(len)
         .map(algo.getRandomArray)
         .map(algo.runInsertSort)
         .map(algo.testSort)
         .map(support.log)
 })
-console.timeEnd('immutual-2000-loops')
+console.timeEnd('insert-sort-2000-loops')
 
 
-console.time('bubble-2000-loops');
-Array.from({length:2000},i=>{
-    let len = algo.getRandomIntInclusive(5,100)
+console.time('bubble-sort-2000-loops');
+Array.from({length:count},i=>{
+    let len = algo.getRandomIntInclusive(min,max)
     support.Maybe.of(len)
         .map(algo.getRandomArray)
         .map(algo.bubbleSort)
         .map(algo.testSort)
         .map(support.log)
 })
-console.timeEnd('bubble-2000-loops');
+console.timeEnd('bubble-sort-2000-loops');
 
 console.time('heap-sort-2000-loops');
-Array.from({length:2000},i=>{
-    let len = algo.getRandomIntInclusive(5,100)
-    support.Maybe.of(5)
+Array.from({length:count},i=>{
+    let len = algo.getRandomIntInclusive(min,max)
+    support.Maybe.of(len)
         .map(algo.getRandomArray)
         .map(algo.heapSort)
         .map(algo.testSort)

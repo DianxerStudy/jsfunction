@@ -1,4 +1,4 @@
-var support = require('./support')
+var support = require('../functional/support')
 
 module.exports = {    
     getRandomIntInclusive: (min, max) => {
@@ -8,7 +8,7 @@ module.exports = {
     },
 
     getRandomArray: length => {
-        let getRandomIntInclusive = (min, max) => {
+        let getRandomIntInclusive = (min, max) => {Sort
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min + 1)) + min; //含最大值，含最小值 
@@ -32,11 +32,11 @@ module.exports = {
     
     
     runMergeSort: arr => {
-        let merge = (arr,p,q,r)=>{
-            let larr = arr.slice(p,q+1)
-            let rarr = arr.slice(q+1,r+1)
+        let merge = (arr,firstStart,firstEnd,totalEnd)=>{
+            let larr = arr.slice(firstStart,firstEnd+1)
+            let rarr = arr.slice(firstEnd+1,totalEnd+1)
             let i=0,j=0
-            for(let k=p;k<=r;k++){
+            for(let k=firstStart;k<=totalEnd;k++){
                 if((i<larr.length && larr[i]< rarr[j]) || j==rarr.length){
                     arr[k] = larr[i]
                     i++

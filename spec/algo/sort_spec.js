@@ -1,5 +1,5 @@
-var algo = require('./algo')
-var support = require('./support')
+var algo = require('../../src/algo/sort')
+var support = require('../../src/functional/support')
 
 var min = 100;
 var max = 500;

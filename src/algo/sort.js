@@ -8,7 +8,7 @@ module.exports = {
     },
 
     getRandomArray: length => {
-        let getRandomIntInclusive = (min, max) => {Sort
+        let getRandomIntInclusive = (min, max) => {
             min = Math.ceil(min);
             max = Math.floor(max);
             return Math.floor(Math.random() * (max - min + 1)) + min; //含最大值，含最小值 
@@ -136,6 +136,46 @@ module.exports = {
             arr[0] = temp
             maxHeapify(arr,0,i)
         }
-        return arr;
+        return arr
+    },
+
+    fastSort : arr => {
+        let swap = (x,y) =>{
+            let temp = x 
+            x = y
+            y = temp
+        }
+        let partition = (p,r) => {
+            //console.log('partition start arry p=',p,' r=',r, arr)
+            let q = r, key = arr[r],i=p
+            for(let j=p;j<r;j++){
+                //console.log('outside step ',j,arr[i],arr[j],key)
+                if(arr[j] <= key){
+                    let temp = arr[i]
+                    arr[i] = arr[j]
+                    arr[j] = temp
+                    //swap(arr[i],arr[j])
+                   // console.log('step ',j,arr[i],arr[j],key)
+                    i++
+                }
+            }
+            //swap(arr[r],arr[i])
+            let tmp = arr[r]
+            arr[r] = arr[i]
+            arr[i] = tmp
+            //console.log('last step ',r,i,arr[r],arr[i])
+            return i
+        }
+
+        let partitionSort = (p,r) => {
+            if(p<r){
+                let q = partition(p,r)
+                partitionSort(p,q-1)
+                partitionSort(q+1,r)
+            }
+        }
+        partitionSort(0,arr.length-1)
+
+        return arr
     }
 }

@@ -6,8 +6,8 @@ module.exports =  (() => {
         this.__value = x;
     }
 
-    Maybe.of = x => x ? new Maybe(x) : new Maybe(null);
-    Maybe.prototype.isNothing = function(){return this.__value == null || this.__value == undefined;}
+    Maybe.of = x => (x !== null && x !== undefined) ? new Maybe(x) : new Maybe(null);
+    Maybe.prototype.isNothing = function(){return this.__value === null || this.__value === undefined;}
     Maybe.prototype.map = function(f){return this.isNothing() ? Maybe.of(null) : Maybe.of(f(this.__value));}
     Maybe.prototype.join = function(){return this.__value;}
     Maybe.prototype.chain = function(f){return this.map(f).join()}
